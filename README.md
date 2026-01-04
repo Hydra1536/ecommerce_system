@@ -90,6 +90,7 @@ This will start the PostgreSQL database and the Django backend.
 ```bash
 docker-compose down
 ```
+## Unit Test Cases
 
 Run the test suite:
 ```bash
@@ -127,15 +128,3 @@ backend/
 └── templates/        # HTML templates
 ```
 
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests for new features
-5. Ensure all tests pass
-6. Submit a pull request
-
-## License
-
-This project is licensed under the MIT License.
