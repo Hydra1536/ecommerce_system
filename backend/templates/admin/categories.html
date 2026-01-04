@@ -1,0 +1,100 @@
+<script>
+const token = localStorage.getItem("access");
+if (!token) window.location.href = "/login/";
+</script>
+
+<nav>
+  <a href="/admin/dashboard/">Dashboard</a> |
+  <a href="/admin/products/">Products</a> |
+  <a href="/admin/orders/">Orders</a> |
+  <a href="/admin/payments/">Payments</a> |
+  <a href="/login/" onclick="localStorage.clear()">Logout</a>
+</nav>
+
+<h2>Category Management</h2>
+
+<form id="categoryForm">
+  <input type="hidden" id="categoryId">
+
+  <label>Name</label><br>
+  <input id="name" required><br><br>
+
+  <label>Parent ID (optional)</label><br>
+  <input id="parent"><br><br>
+
+  <button type="button" onclick="saveCategory()">Save</button>
+</form>
+
+<hr>
+
+<h3>Categories</h3>
+<ul id="categoryList"></ul>
+
+<script>
+function saveCategory() {
+  // Explicitly select the elements
+  const categoryIdEl = document.getElementById("categoryId");
+  const nameEl = document.getElementById("name");
+  const parentEl = document.getElementById("parent");
+
+  const id = categoryIdEl.value;
+  const payload = {
+    name: nameEl.value.trim(), // Now nameEl refers to the input
+    parent: parentEl.value || null
+  };
+
+  const url = id ? `/api/categories/${id}/` : `/api/categories/`;
+  const method = id ? "PATCH" : "POST";
+
+  fetch(url, {
+    method,
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + token
+    },
+    body: JSON.stringify(payload)
+  })
+  .then(res => res.ok ? res.json() : res.json().then(e => Promise.reject(e)))
+  .then(() => {
+    alert("Saved");
+    document.getElementById("categoryForm").reset();
+    categoryIdEl.value = "";
+    loadCategories();
+  })
+  .catch(err => alert(JSON.stringify(err)));
+}
+function loadCategories() {
+  fetch("/api/categories/", {
+    headers: {"Authorization": "Bearer " + token}
+  })
+  .then(res => res.json())
+  .then(data => {
+    categoryList.innerHTML = "";
+    data.forEach(c => {
+      categoryList.innerHTML += `
+        <li>
+          ${c.name} (Parent: ${c.parent || "None"})
+          <button onclick='editCategory(${JSON.stringify(c)})'>Edit</button>
+          <button onclick='deleteCategory(${c.id})'>Delete</button>
+        </li>`;
+    });
+  });
+}
+
+function editCategory(c) {
+  document.getElementById("categoryId").value = c.id;
+  document.getElementById("name").value = c.name;
+  document.getElementById("parent").value = c.parent || "";
+}
+
+function deleteCategory(id) {
+  if (!confirm("Delete category?")) return;
+
+  fetch(`/api/categories/${id}/`, {
+    method: "DELETE",
+    headers: {"Authorization": "Bearer " + token}
+  }).then(loadCategories);
+}
+
+loadCategories();
+</script>

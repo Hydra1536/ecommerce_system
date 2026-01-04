@@ -1,0 +1,33 @@
+<script>
+const token = localStorage.getItem("access");
+
+if (!token && !location.pathname.includes("login") && !location.pathname.includes("register")) {
+  window.location.href = "/login/";
+}
+</script>
+
+<nav>
+  <a href="/products/">Products</a> |
+  <a href="/cart/">Cart</a> |
+  <a href="/orders/">Orders</a> |
+  {% comment %} <a href="/admin/dashboard/">Admin</a> | {% endcomment %}
+  <a href="/login/" onclick="localStorage.clear()">Logout</a>
+</nav>
+<hr>
+
+<h2>My Orders</h2>
+<ul id="orders"></ul>
+
+<script>
+fetch("/api/orders/my-orders/", {
+  headers: {
+    "Authorization": "Bearer " + localStorage.getItem("access")
+  }
+})
+.then(res => res.json())
+.then(data => {
+  data.forEach(o => {
+    orders.innerHTML += `<li>Order #${o.id} - ${o.total_amount} (${o.status})</li>`;
+  });
+});
+</script>
