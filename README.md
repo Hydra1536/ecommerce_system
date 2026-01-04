@@ -91,36 +91,6 @@ This will start the PostgreSQL database and the Django backend.
 docker-compose down
 ```
 
-## API Endpoints
-
-### Authentication
-- `POST /api/accounts/register/` - User registration
-- `POST /api/accounts/login/` - User login
-- `GET /api/accounts/profile/` - Get user profile
-
-### Products
-- `GET /api/products/` - List products
-- `POST /api/products/` - Create product (Admin)
-- `GET /api/products/{id}/` - Get product details
-- `PUT /api/products/{id}/` - Update product (Admin)
-- `DELETE /api/products/{id}/` - Delete product (Admin)
-
-### Categories
-- `GET /api/categories/` - List categories
-- `POST /api/categories/` - Create category (Admin)
-- `GET /api/categories/categories/tree/` - Get category tree
-
-### Orders
-- `POST /api/orders/create/` - Create order
-- `GET /api/orders/my-orders/` - Get user orders
-
-### Payments
-- `POST /api/payments/pay/{order_id}/` - Initiate payment
-- `GET /api/payments/all/` - List all payments (Admin)
-- `POST /api/payments/stripe/webhook/` - Stripe webhook
-
-## Testing
-
 Run the test suite:
 ```bash
 python manage.py test
