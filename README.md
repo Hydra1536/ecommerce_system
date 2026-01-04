@@ -68,6 +68,29 @@ python manage.py createsuperuser
 python manage.py runserver
 ```
 
+## Docker Setup
+
+To run the application using Docker:
+
+1. Ensure Docker and Docker Compose are installed.
+
+2. Navigate to the backend directory:
+```bash
+cd backend
+```
+
+3. Build and start the services:
+```bash
+docker-compose up --build
+```
+
+This will start the PostgreSQL database and the Django backend.
+
+4. To stop the services:
+```bash
+docker-compose down
+```
+
 ## API Endpoints
 
 ### Authentication
@@ -101,6 +124,20 @@ python manage.py runserver
 Run the test suite:
 ```bash
 python manage.py test
+```
+
+## Seeding the Database
+
+To populate the database with sample data:
+
+1. Seed categories and products:
+```bash
+python manage.py seed_data
+```
+
+2. Create a default admin user (email: admin@example.com, password: admin123):
+```bash
+python manage.py seed_admin
 ```
 
 ## API Documentation
