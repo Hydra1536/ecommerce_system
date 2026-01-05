@@ -1,6 +1,6 @@
-# Ecommerce System Backend
+# Ecommerce System 
 
-A robust Django REST API backend for an ecommerce platform, featuring user authentication, product management, order processing, and payment integration.
+A robust Django REST API project for an ecommerce platform, featuring user authentication, product management, order processing, and payment integration.
 
 ## Features
 
@@ -14,6 +14,7 @@ A robust Django REST API backend for an ecommerce platform, featuring user authe
 ## Tech Stack
 
 - **Backend**: Django 6.0
+- **Frontend**: HTML
 - **API Framework**: Django REST Framework
 - **Authentication**: JWT (djangorestframework-simplejwt)
 - **Database**: PostgreSQL
