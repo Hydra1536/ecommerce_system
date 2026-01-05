@@ -1,13 +1,13 @@
-from categories.models import Category
 from django.contrib.auth import get_user_model
-from products.models import Product
 from rest_framework.test import APITestCase
+
+from categories.models import Category
+from products.models import Product
 
 User = get_user_model()
 
 
 class OrderTest(APITestCase):
-
     def setUp(self):
         self.user = User.objects.create_user(
             email="user@example.com", full_name="Test User", password="user123"

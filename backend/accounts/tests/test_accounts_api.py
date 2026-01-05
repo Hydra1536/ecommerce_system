@@ -1,5 +1,4 @@
 from django.contrib.auth import get_user_model
-from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
@@ -7,7 +6,6 @@ User = get_user_model()
 
 
 class AccountsAPITests(APITestCase):
-
     def setUp(self):
         self.register_url = "/api/accounts/register/"
         self.login_url = "/api/accounts/login/"

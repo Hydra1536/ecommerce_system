@@ -1,9 +1,9 @@
 <script>
-const token = localStorage.getItem("access");
+  const token = localStorage.getItem("access");
 
-if (!token && !location.pathname.includes("login") && !location.pathname.includes("register")) {
-  window.location.href = "/login/";
-}
+  if (!token && !location.pathname.includes("login") && !location.pathname.includes("register")) {
+    window.location.href = "/login/";
+  }
 </script>
 
 <nav>
@@ -22,46 +22,46 @@ if (!token && !location.pathname.includes("login") && !location.pathname.include
 <button onclick="pay('bkash')">bKash</button>
 
 <script>
-const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-const summary = document.getElementById("summary");
+  const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  const summary = document.getElementById("summary");
 
-if (cart.length === 0) {
-  summary.innerHTML = "<li>No items in cart</li>";
-}
+  if (cart.length === 0) {
+    summary.innerHTML = "<li>No items in cart</li>";
+  }
 
-cart.forEach(i => {
-  summary.innerHTML += `<li>Product ${i.product_id} x ${i.quantity}</li>`;
-});
+  cart.forEach(i => {
+    summary.innerHTML += `<li>Product ${i.product_id} x ${i.quantity}</li>`;
+  });
 
-function pay(provider) {
-  fetch("/api/orders/create/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer " + localStorage.getItem("access")
-    },
-    body: JSON.stringify({ items: cart })
-  })
-  .then(res => {
-    if (!res.ok) throw new Error("Order failed");
-    return res.json();
-  })
-  .then(order => {
-    return fetch(`/api/payments/pay/${order.id}/`, {
+  function pay(provider) {
+    fetch("/api/orders/create/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer " + localStorage.getItem("access")
       },
-      body: JSON.stringify({ provider })
-    });
-  })
-  .then(() => {
-    localStorage.removeItem("cart");
-    alert("Payment initiated");
-    window.location.href = "/orders/";
-  })
-  .catch(err => alert(err.message));
-}
+      body: JSON.stringify({ items: cart })
+    })
+      .then(res => {
+        if (!res.ok) throw new Error("Order failed");
+        return res.json();
+      })
+      .then(order => {
+        return fetch(`/api/payments/pay/${order.id}/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("access")
+          },
+          body: JSON.stringify({ provider })
+        });
+      })
+      .then(() => {
+        localStorage.removeItem("cart");
+        alert("Payment initiated");
+        window.location.href = "/orders/";
+      })
+      .catch(err => alert(err.message));
+  }
 </script>
 

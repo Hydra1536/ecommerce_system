@@ -1,5 +1,4 @@
 from django.db import transaction
-from orders.models import OrderItem
 
 
 @transaction.atomic

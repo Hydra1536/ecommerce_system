@@ -8,24 +8,24 @@
 <p id="msg"></p>
 
 <script>
-function register() {
-  fetch("/api/accounts/register/", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({
-      email: email.value,
-      full_name: full_name.value,
-      password: password.value
+  function register() {
+    fetch("/api/accounts/register/", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        email: email.value,
+        full_name: full_name.value,
+        password: password.value
+      })
     })
-  })
-  .then(res => {
-    if (!res.ok) throw new Error("Registration failed");
-    return res.json();
-  })
-  .then(() => {
-    msg.innerText = "Registered successfully!";
-    window.location.href = "/login/";
-  })
-  .catch(err => msg.innerText = err.message);
-}
+      .then(res => {
+        if (!res.ok) throw new Error("Registration failed");
+        return res.json();
+      })
+      .then(() => {
+        msg.innerText = "Registered successfully!";
+        window.location.href = "/login/";
+      })
+      .catch(err => msg.innerText = err.message);
+  }
 </script>

@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand
+
 from categories.models import Category
 from products.models import Product
 
@@ -10,11 +11,7 @@ class Command(BaseCommand):
         fashion, _ = Category.objects.get_or_create(name="Fashion")
         computer, _ = Category.objects.get_or_create(name="Computer")
         # Child categories
-        phone, _ = Category.objects.get_or_create(
-            name="Phone",
-            parent=electronics
-        )
-
+        phone, _ = Category.objects.get_or_create(name="Phone", parent=electronics)
 
         # Products
         products = [
@@ -111,10 +108,7 @@ class Command(BaseCommand):
         ]
 
         for product in products:
-            Product.objects.get_or_create(
-                sku=product["sku"],
-                defaults=product
-            )
+            Product.objects.get_or_create(sku=product["sku"], defaults=product)
 
         self.stdout.write(
             self.style.SUCCESS("✅ Categories and 10 products seeded successfully")

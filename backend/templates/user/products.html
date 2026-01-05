@@ -1,9 +1,9 @@
 <script>
-const token = localStorage.getItem("access");
+  const token = localStorage.getItem("access");
 
-if (!token && !location.pathname.includes("login") && !location.pathname.includes("register")) {
-  window.location.href = "/login/";
-}
+  if (!token && !location.pathname.includes("login") && !location.pathname.includes("register")) {
+    window.location.href = "/login/";
+  }
 </script>
 
 <nav>
@@ -19,32 +19,32 @@ if (!token && !location.pathname.includes("login") && !location.pathname.include
 <ul id="productList"></ul>
 
 <script>
-fetch("/api/products/", {
-  headers: {"Authorization": "Bearer " + localStorage.getItem("access")}
-})
-.then(res => res.json())
-.then(data => {
-  const productList = document.getElementById("productList");
-  productList.innerHTML = "";
+  fetch("/api/products/", {
+    headers: {"Authorization": "Bearer " + localStorage.getItem("access")}
+  })
+    .then(res => res.json())
+    .then(data => {
+      const productList = document.getElementById("productList");
+      productList.innerHTML = "";
 
-  data.forEach(p => {
-    productList.innerHTML += `
+      data.forEach(p => {
+        productList.innerHTML += `
       <li>
         ${p.name} | ${p.price} | Stock: ${p.stock}
         <button onclick="addToCart(${p.id})">Add</button>
       </li>`;
-  });
-});
+      });
+    });
 
-function addToCart(id) {
-  let cart = JSON.parse(localStorage.getItem("cart") || "[]");
-  let existing = cart.find(i => i.product_id === id);
+  function addToCart(id) {
+    let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    let existing = cart.find(i => i.product_id === id);
 
-  if (existing) existing.quantity += 1;
-  else cart.push({product_id: id, quantity: 1});
+    if (existing) existing.quantity += 1;
+    else cart.push({product_id: id, quantity: 1});
 
-  localStorage.setItem("cart", JSON.stringify(cart));
-  alert("Added to cart");
-}
+    localStorage.setItem("cart", JSON.stringify(cart));
+    alert("Added to cart");
+  }
 </script>
 

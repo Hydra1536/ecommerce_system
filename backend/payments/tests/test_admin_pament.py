@@ -1,13 +1,13 @@
 from django.contrib.auth import get_user_model
+from rest_framework.test import APITestCase
+
 from orders.models import Order
 from payments.models import Payment
-from rest_framework.test import APITestCase
 
 User = get_user_model()
 
 
 class AdminPaymentsTest(APITestCase):
-
     def setUp(self):
         self.admin = User.objects.create_superuser(
             email="admin@example.com", full_name="Admin User", password="admin123"

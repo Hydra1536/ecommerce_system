@@ -1,15 +1,15 @@
 <script>
-const token = localStorage.getItem("access");
+  const token = localStorage.getItem("access");
 
-if (!token) {
-  window.location.href = "/login/";
-}
+  if (!token) {
+    window.location.href = "/login/";
+  }
 </script>
 <nav>
   <a href="/admin/dashboard/"><button>Admin Dashboard</button></a>
-<a href="/admin/products/"><button>Manage Products</button></a>
-<a href="/admin/orders/"><button >Manage Orders</button></a>
-<a href="/login/" onclick="localStorage.clear()"><button>Logout</button></a>
+  <a href="/admin/products/"><button>Manage Products</button></a>
+  <a href="/admin/orders/"><button >Manage Orders</button></a>
+  <a href="/login/" onclick="localStorage.clear()"><button>Logout</button></a>
 </nav>
 <div id="admin-content"></div>
 
@@ -18,22 +18,22 @@ if (!token) {
 
 <script>
 {% comment %} const token = localStorage.getItem("access"); {% endcomment %}
-const paymentsList = document.getElementById("paymentsList");
+  const paymentsList = document.getElementById("paymentsList");
 
-fetch("/api/payments/all/", {
-  headers: {"Authorization": "Bearer " + token}
-})
-.then(res => res.json())
-.then(data => {
-  paymentsList.innerHTML = "";
-  data.forEach(p => {
-    paymentsList.innerHTML += `
+  fetch("/api/payments/all/", {
+    headers: {"Authorization": "Bearer " + token}
+  })
+    .then(res => res.json())
+    .then(data => {
+      paymentsList.innerHTML = "";
+      data.forEach(p => {
+        paymentsList.innerHTML += `
       <li>
         ${p.provider} |
         Txn: ${p.transaction_id} |
         Amount: ${p.amount} |
         Status: ${p.status}
       </li>`;
-  });
-});
+      });
+    });
 </script>

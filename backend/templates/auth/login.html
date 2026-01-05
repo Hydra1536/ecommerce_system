@@ -7,26 +7,26 @@
 <p id="msg"></p>
 
 <script>
-function login() {
-  fetch("/api/accounts/login/", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({
-      email: email.value,
-      password: password.value
+  function login() {
+    fetch("/api/accounts/login/", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        email: email.value,
+        password: password.value
+      })
     })
-  })
-  .then(res => res.json())
-  .then(data => {
-    localStorage.setItem("access", data.access);
-    localStorage.setItem("is_admin", data.is_admin);
+      .then(res => res.json())
+      .then(data => {
+        localStorage.setItem("access", data.access);
+        localStorage.setItem("is_admin", data.is_admin);
 
-    if (data.is_admin) {
-      window.location.href = "/admin/dashboard/";
-    } else {
-      window.location.href = "/products/";
-    }
-  })
-  .catch(() => msg.innerText = "Invalid credentials");
-}
+        if (data.is_admin) {
+          window.location.href = "/admin/dashboard/";
+        } else {
+          window.location.href = "/products/";
+        }
+      })
+      .catch(() => msg.innerText = "Invalid credentials");
+  }
 </script>

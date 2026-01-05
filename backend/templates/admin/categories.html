@@ -1,6 +1,6 @@
 <script>
-const token = localStorage.getItem("access");
-if (!token) window.location.href = "/login/";
+  const token = localStorage.getItem("access");
+  if (!token) window.location.href = "/login/";
 </script>
 
 <nav>
@@ -31,70 +31,70 @@ if (!token) window.location.href = "/login/";
 <ul id="categoryList"></ul>
 
 <script>
-function saveCategory() {
+  function saveCategory() {
   // Explicitly select the elements
-  const categoryIdEl = document.getElementById("categoryId");
-  const nameEl = document.getElementById("name");
-  const parentEl = document.getElementById("parent");
+    const categoryIdEl = document.getElementById("categoryId");
+    const nameEl = document.getElementById("name");
+    const parentEl = document.getElementById("parent");
 
-  const id = categoryIdEl.value;
-  const payload = {
-    name: nameEl.value.trim(), // Now nameEl refers to the input
-    parent: parentEl.value || null
-  };
+    const id = categoryIdEl.value;
+    const payload = {
+      name: nameEl.value.trim(), // Now nameEl refers to the input
+      parent: parentEl.value || null
+    };
 
-  const url = id ? `/api/categories/${id}/` : `/api/categories/`;
-  const method = id ? "PATCH" : "POST";
+    const url = id ? `/api/categories/${id}/` : `/api/categories/`;
+    const method = id ? "PATCH" : "POST";
 
-  fetch(url, {
-    method,
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer " + token
-    },
-    body: JSON.stringify(payload)
-  })
-  .then(res => res.ok ? res.json() : res.json().then(e => Promise.reject(e)))
-  .then(() => {
-    alert("Saved");
-    document.getElementById("categoryForm").reset();
-    categoryIdEl.value = "";
-    loadCategories();
-  })
-  .catch(err => alert(JSON.stringify(err)));
-}
-function loadCategories() {
-  fetch("/api/categories/", {
-    headers: {"Authorization": "Bearer " + token}
-  })
-  .then(res => res.json())
-  .then(data => {
-    categoryList.innerHTML = "";
-    data.forEach(c => {
-      categoryList.innerHTML += `
+    fetch(url, {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+      },
+      body: JSON.stringify(payload)
+    })
+      .then(res => res.ok ? res.json() : res.json().then(e => Promise.reject(e)))
+      .then(() => {
+        alert("Saved");
+        document.getElementById("categoryForm").reset();
+        categoryIdEl.value = "";
+        loadCategories();
+      })
+      .catch(err => alert(JSON.stringify(err)));
+  }
+  function loadCategories() {
+    fetch("/api/categories/", {
+      headers: {"Authorization": "Bearer " + token}
+    })
+      .then(res => res.json())
+      .then(data => {
+        categoryList.innerHTML = "";
+        data.forEach(c => {
+          categoryList.innerHTML += `
         <li>
           ${c.name} (Parent: ${c.parent || "None"})
           <button onclick='editCategory(${JSON.stringify(c)})'>Edit</button>
           <button onclick='deleteCategory(${c.id})'>Delete</button>
         </li>`;
-    });
-  });
-}
+        });
+      });
+  }
 
-function editCategory(c) {
-  document.getElementById("categoryId").value = c.id;
-  document.getElementById("name").value = c.name;
-  document.getElementById("parent").value = c.parent || "";
-}
+  function editCategory(c) {
+    document.getElementById("categoryId").value = c.id;
+    document.getElementById("name").value = c.name;
+    document.getElementById("parent").value = c.parent || "";
+  }
 
-function deleteCategory(id) {
-  if (!confirm("Delete category?")) return;
+  function deleteCategory(id) {
+    if (!confirm("Delete category?")) return;
 
-  fetch(`/api/categories/${id}/`, {
-    method: "DELETE",
-    headers: {"Authorization": "Bearer " + token}
-  }).then(loadCategories);
-}
+    fetch(`/api/categories/${id}/`, {
+      method: "DELETE",
+      headers: {"Authorization": "Bearer " + token}
+    }).then(loadCategories);
+  }
 
-loadCategories();
+  loadCategories();
 </script>

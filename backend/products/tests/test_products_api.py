@@ -1,14 +1,14 @@
-from categories.models import Category
 from django.contrib.auth import get_user_model
-from products.models import Product
 from rest_framework import status
 from rest_framework.test import APITestCase
+
+from categories.models import Category
+from products.models import Product
 
 User = get_user_model()
 
 
 class ProductAPITest(APITestCase):
-
     def setUp(self):
         self.admin = User.objects.create_superuser(
             email="admin@example.com", full_name="Admin User", password="admin123"

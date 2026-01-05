@@ -5,7 +5,6 @@ from django.test import Client, TestCase
 
 
 class StripeWebhookTest(TestCase):
-
     def setUp(self):
         self.client = Client()
 

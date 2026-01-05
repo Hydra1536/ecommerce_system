@@ -1,14 +1,11 @@
-from django.shortcuts import render
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from orders.models import Order
 from payments.factory import get_payment_strategy
-from rest_framework.response import Response
-
-# Create your views here.
-from rest_framework.views import APIView
 
 
 class InitiatePaymentView(APIView):
-
     def post(self, request, order_id):
         provider = request.data.get("provider")
         order = Order.objects.get(id=order_id)
@@ -25,6 +22,7 @@ class InitiatePaymentView(APIView):
 import stripe
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+
 from payments.strategies.stripe import StripePayment
 
 
@@ -39,10 +37,10 @@ def stripe_webhook(request):
     return JsonResponse({"status": "ok"})
 
 
+from rest_framework.permissions import IsAdminUser
+
 from payments.models import Payment
 from payments.serializer import PaymentSerializer
-from products.permissions import IsAdmin
-from rest_framework.permissions import IsAdminUser
 
 
 class AllPaymentsView(APIView):

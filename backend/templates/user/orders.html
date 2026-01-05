@@ -1,9 +1,9 @@
 <script>
-const token = localStorage.getItem("access");
+  const token = localStorage.getItem("access");
 
-if (!token && !location.pathname.includes("login") && !location.pathname.includes("register")) {
-  window.location.href = "/login/";
-}
+  if (!token && !location.pathname.includes("login") && !location.pathname.includes("register")) {
+    window.location.href = "/login/";
+  }
 </script>
 
 <nav>
@@ -19,15 +19,15 @@ if (!token && !location.pathname.includes("login") && !location.pathname.include
 <ul id="orders"></ul>
 
 <script>
-fetch("/api/orders/my-orders/", {
-  headers: {
-    "Authorization": "Bearer " + localStorage.getItem("access")
-  }
-})
-.then(res => res.json())
-.then(data => {
-  data.forEach(o => {
-    orders.innerHTML += `<li>Order #${o.id} - ${o.total_amount} (${o.status})</li>`;
-  });
-});
+  fetch("/api/orders/my-orders/", {
+    headers: {
+      "Authorization": "Bearer " + localStorage.getItem("access")
+    }
+  })
+    .then(res => res.json())
+    .then(data => {
+      data.forEach(o => {
+        orders.innerHTML += `<li>Order #${o.id} - ${o.total_amount} (${o.status})</li>`;
+      });
+    });
 </script>

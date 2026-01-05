@@ -1,5 +1,6 @@
 import stripe
 from django.conf import settings
+
 from payments.models import Payment
 from payments.services import finalize_order
 from payments.strategies.base import PaymentStrategy
@@ -10,7 +11,6 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 class StripePayment(PaymentStrategy):
-
     def initiate_payment(self, order):
         intent = stripe.PaymentIntent.create(
             amount=int(order.total_amount * 100),

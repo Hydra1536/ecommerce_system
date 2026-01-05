@@ -1,15 +1,13 @@
 from django.db import transaction
-from django.shortcuts import render
-from payments.models import Payment
-from products.models import Product
-from products.permissions import IsAdmin
-from rest_framework import permissions, status
+from rest_framework import permissions
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
-
-# Create your views here.
 from rest_framework.views import APIView
+
+from payments.models import Payment
+from products.models import Product
+from products.permissions import IsAdmin
 
 from .models import Order, OrderItem
 from .serializers import OrderSerializer

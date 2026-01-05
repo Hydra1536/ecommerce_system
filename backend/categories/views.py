@@ -1,11 +1,9 @@
 from django.core.cache import cache
-from django.shortcuts import render
-from products.permissions import IsAdmin
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
-# Create your views here.
 from rest_framework.viewsets import ModelViewSet
+
+from products.permissions import IsAdmin
 
 from .models import Category
 from .serializers import CategorySerializer

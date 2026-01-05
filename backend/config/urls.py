@@ -15,17 +15,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-from categories.views import CategoryViewSet
-from config.views import *
-from django.contrib import admin
 from django.urls import include, path
 from django.views.generic import TemplateView
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
-from orders.views import AdminDashboardView
-from products.views import ProductViewSet
 from rest_framework.permissions import AllowAny
 from rest_framework.routers import DefaultRouter
+
+from categories.views import CategoryViewSet
+from config.views import *
+from orders.views import AdminDashboardView
+from products.views import ProductViewSet
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -40,10 +40,8 @@ schema_view = get_schema_view(
 router = DefaultRouter()
 router.register("products", ProductViewSet)
 router.register("categories", CategoryViewSet)
-# router.register('orders', include('orders.urls'))
-# router.register('payments', include('payments.urls'))
+
 urlpatterns = [
-    # path("admin/", admin.site.urls),
     path("api/accounts/", include("accounts.urls")),
     path("api/", include(router.urls)),
     path("api/orders/", include("orders.urls")),

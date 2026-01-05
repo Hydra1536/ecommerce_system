@@ -1,12 +1,12 @@
 from django.contrib.auth import get_user_model
-from orders.models import Order
 from rest_framework.test import APITestCase
+
+from orders.models import Order
 
 User = get_user_model()
 
 
 class PaymentTest(APITestCase):
-
     def setUp(self):
         self.user = User.objects.create_user(
             email="user@example.com", full_name="Test User", password="user123"

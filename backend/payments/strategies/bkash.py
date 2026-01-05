@@ -1,14 +1,11 @@
 import uuid
 
-import requests
 from payments.models import Payment
 from payments.services import finalize_order
 from payments.strategies.base import PaymentStrategy
-from products.utils import reduce_stock_for_order
 
 
 class BkashPayment(PaymentStrategy):
-
     def initiate_payment(self, order):
         unique_id = f"BKASH-{uuid.uuid4().hex[:8].upper()}"
 

@@ -1,5 +1,6 @@
-from categories.models import Category
 from django.db import models
+
+from categories.models import Category
 
 
 class Product(models.Model):
