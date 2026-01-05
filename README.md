@@ -33,10 +33,6 @@ backend/
 └── templates/        # HTML templates
 ```
 
-## API Documentation
-
-Access the API documentation at `http://localhost:8000/swagger/` when the server is running.
-
 ## Installation
 
 1. Clone the repository:
@@ -84,6 +80,10 @@ python manage.py createsuperuser
 ```bash
 python manage.py runserver
 ```
+
+## API Documentation
+
+Access the API documentation at `http://localhost:8000/swagger/` when the server is running.
 
 ## Docker Setup
 
