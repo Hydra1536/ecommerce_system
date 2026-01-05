@@ -1,8 +1,7 @@
 from django.shortcuts import render
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
-from rest_framework.response import Response  # 🔥 THIS WAS MISSING
+from rest_framework.response import Response  
 
-# Create your views here.
 from rest_framework.viewsets import ModelViewSet
 
 from .models import Product
