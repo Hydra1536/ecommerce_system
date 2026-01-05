@@ -20,6 +20,23 @@ A robust Django REST API backend for an ecommerce platform, featuring user authe
 - **Payment Gateways**: Stripe, bKash
 - **Documentation**: drf-yasg (Swagger)
 
+## Project Structure
+
+```
+backend/
+├── accounts/          # User management
+├── categories/        # Product categories
+├── orders/           # Order management
+├── payments/         # Payment processing
+├── products/         # Product management
+├── config/           # Django settings
+└── templates/        # HTML templates
+```
+
+## API Documentation
+
+Access the API documentation at `http://localhost:8000/swagger/` when the server is running.
+
 ## Installation
 
 1. Clone the repository:
@@ -109,22 +126,5 @@ python manage.py seed_data
 2. Create a default admin user (email: admin@example.com, password: admin123):
 ```bash
 python manage.py seed_admin
-```
-
-## API Documentation
-
-Access the API documentation at `http://localhost:8000/swagger/` when the server is running.
-
-## Project Structure
-
-```
-backend/
-├── accounts/          # User management
-├── categories/        # Product categories
-├── orders/           # Order management
-├── payments/         # Payment processing
-├── products/         # Product management
-├── config/           # Django settings
-└── templates/        # HTML templates
 ```
 
