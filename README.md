@@ -124,7 +124,7 @@ To populate the database with sample data:
 python manage.py seed_data
 ```
 
-2. Create a default admin user (email: admin@example.com, password: admin123):
+2. Create a default admin user:
 ```bash
 python manage.py seed_admin
 ```
