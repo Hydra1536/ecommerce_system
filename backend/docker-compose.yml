@@ -18,13 +18,15 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+
+  # 2. Redis Service    
   redis:
     image: redis:alpine
     container_name: ecommerce_redis
     ports:
       - "6379:6379"
     restart: always
-  # 2. Your Django Backend
+  # 3. Django Backend
   web:
     build: .
     container_name: django_backend
