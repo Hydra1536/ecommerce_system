@@ -1,4 +1,5 @@
 from django.db import models
+from orders.models import Order
 
 
 class Payment(models.Model):
@@ -13,14 +14,20 @@ class Payment(models.Model):
         ("failed", "Failed"),
     )
 
-    order = models.ForeignKey(
-        "orders.Order", on_delete=models.CASCADE, related_name="payments"
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    provider = models.CharField(max_length=20, choices=PROVIDER_CHOICES)
+
+    session_id = models.CharField(max_length=255, unique=True)
+    payment_intent_id = models.CharField(
+        max_length=255, null=True, blank=True
     )
-    provider = models.CharField(max_length=10, choices=PROVIDER_CHOICES)
-    transaction_id = models.CharField(max_length=255, unique=True)
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES)
+
+    status = models.CharField(
+        max_length=20, choices=STATUS_CHOICES, default="pending"
+    )
+
     raw_response = models.JSONField()
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.provider} - {self.transaction_id}"
+        return f"{self.provider} - {self.session_id}"

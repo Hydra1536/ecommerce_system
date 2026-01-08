@@ -13,7 +13,7 @@ class PaymentSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "provider",
-            "transaction_id",
+            "session_id",
             "status",
             "amount",
             "created_at",

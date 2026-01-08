@@ -1,3 +1,56 @@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+  .bkash-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+  }
+  .bkash-modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 400px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  .bkash-logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #e31b54;
+    margin-bottom: 20px;
+  }
+  .payment-amount {
+    font-size: 18px;
+    margin: 20px 0;
+  }
+  .pay-button {
+    background-color: #e31b54;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 10px;
+  }
+  .cancel-button {
+    background-color: #666;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 10px;
+  }
+</style>
+
 <script>
   const token = localStorage.getItem("access");
 
@@ -19,7 +72,18 @@
 <ul id="summary"></ul>
 
 <button onclick="pay('stripe')">Stripe</button>
-<button onclick="pay('bkash')">bKash</button>
+<button id="bKash_button" disabled onclick="pay('bkash')">Pay with bKash</button>
+
+<!-- bKash Demo Modal -->
+<div id="bkashModal" class="bkash-modal">
+  <div class="bkash-modal-content">
+    <div class="bkash-logo">bKash Payment</div>
+    <div class="payment-amount">Amount: BDT <span id="modalAmount"></span></div>
+    <p>Demo Payment - Click Pay to simulate successful payment</p>
+    <button class="pay-button" onclick="simulatePayment()">Pay Now</button>
+    <button class="cancel-button" onclick="closeModal()">Cancel</button>
+  </div>
+</div>
 
 <script>
   const cart = JSON.parse(localStorage.getItem("cart") || "[]");
@@ -32,6 +96,8 @@
   cart.forEach(i => {
     summary.innerHTML += `<li>Product ${i.product_id} x ${i.quantity}</li>`;
   });
+
+  let currentOrder = null;
 
   function pay(provider) {
     fetch("/api/orders/create/", {
@@ -47,6 +113,7 @@
         return res.json();
       })
       .then(order => {
+        currentOrder = order;
         return fetch(`/api/payments/pay/${order.id}/`, {
           method: "POST",
           headers: {
@@ -56,12 +123,94 @@
           body: JSON.stringify({ provider })
         });
       })
-      .then(() => {
+      .then(res => res.json())
+      .then(data => {
         localStorage.removeItem("cart");
-        alert("Payment initiated");
-        window.location.href = "/orders/";
+        if (provider === "stripe") {
+          window.location.href = data;
+        }
+        else if (provider === "bkash") {
+          initBkash(data.amount, currentOrder.id);
+        }
+        else {
+          alert("Payment initiated");
+          window.location.href = "/orders/";
+        }
       })
       .catch(err => alert(err.message));
   }
+
+  let currentPaymentId = null;
+
+  function initBkash(amount, orderId) {
+    // Show demo modal
+    document.getElementById('modalAmount').textContent = amount;
+    document.getElementById('bkashModal').style.display = 'block';
+
+    // Simulate create request
+    fetch("/api/payments/bkash/create/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem("access")
+      },
+      body: JSON.stringify({
+        order_id: orderId,
+        amount: amount
+      })
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.paymentID) {
+          currentPaymentId = data.paymentID;
+        } else {
+          alert("Payment creation failed");
+          closeModal();
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        alert("Payment creation failed");
+        closeModal();
+      });
+  }
+
+  function simulatePayment() {
+    // Simulate successful payment
+    fetch("/api/payments/bkash/execute/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem("access")
+      },
+      body: JSON.stringify({
+        paymentID: currentPaymentId
+      })
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.transactionStatus === "Completed") {
+          closeModal();
+          window.location.href = "/orders/";
+        } else {
+          alert("Payment failed");
+          closeModal();
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        alert("Payment failed");
+        closeModal();
+      });
+  }
+
+  function closeModal() {
+    document.getElementById('bkashModal').style.display = 'none';
+  }
+
+  // Enable bKash button on page load
+  $(document).ready(function() {
+    $('#bKash_button').removeAttr('disabled');
+  });
 </script>
 

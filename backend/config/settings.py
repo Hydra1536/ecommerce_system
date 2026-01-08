@@ -174,6 +174,13 @@ STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
 STRIPE_PUBLISHABLE_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY")
 STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET")
 
+# bKash Settings
+BKASH_APP_KEY = os.getenv("BKASH_APP_KEY")
+BKASH_APP_SECRET = os.getenv("BKASH_APP_SECRET")
+BKASH_USERNAME = os.getenv("BKASH_USERNAME")
+BKASH_PASSWORD = os.getenv("BKASH_PASSWORD")
+BKASH_BASE_URL = os.getenv("BKASH_BASE_URL", "https://tokenized.sandbox.bka.sh/v1.2.0-beta")
+
 SWAGGER_SETTINGS = {
     "SECURITY_DEFINITIONS": {
         "Bearer": {"type": "apiKey", "name": "Authorization", "in": "header"}
