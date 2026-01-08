@@ -38,7 +38,7 @@ services:
       db:
         condition: service_healthy
     volumes:
-      - .:/app  # Syncs your code so you don't have to rebuild constantly
+      - .:/app  # Syncs code for not rebuilding constantly
 
 volumes:
   postgres_data:
