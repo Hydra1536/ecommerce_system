@@ -56,14 +56,21 @@ pip install -r requirements.txt
 4. Set up environment variables:
 Create a `.env` file in the backend directory with:
 ```
+SECRET_KEY=your_secret_key
+DEBUG=True
+ALLOWED_HOSTS=localhost,127.0.0.1
 DB_NAME=your_db_name
 DB_USER=your_db_user
 DB_PASSWORD=your_db_password
-DB_HOST=localhost
+DB_HOST=localhost  # Use 'db' when running with Docker
 DB_PORT=5432
 STRIPE_SECRET_KEY=your_stripe_secret_key
 STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
 STRIPE_WEBHOOK_SECRET=your_webhook_secret
+BKASH_APP_KEY=your_bkash_app_key
+BKASH_APP_SECRET=your_bkash_app_secret
+BKASH_USERNAME=your_bkash_username
+BKASH_PASSWORD=your_bkash_password
 ```
 
 5. Run migrations:

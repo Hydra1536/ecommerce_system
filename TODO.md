@@ -1,5 +1,0 @@
-- [x] Add bKash settings to settings.py
-- [x] Update bkash.py strategy with API methods
-- [x] Add BkashCreateView and BkashExecuteView in views.py
-- [x] Update urls.py with new paths
-- [x] Update checkout.html with script, button, and JS
